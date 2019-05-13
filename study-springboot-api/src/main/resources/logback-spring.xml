@@ -1,0 +1,95 @@
+<!--
+
+    Licensed to Apereo under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Apereo licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License.  You may obtain a
+    copy of the License at the following location:
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<configuration>
+    <!-- 尽量别用绝对路径，如果带参数不同容器路径解释可能不同 -->
+    <!--<property name="LOG_HOME" value="/opt/customsapi/logs"/>-->
+    <!--<property name="LOG_HOME" value="/opt/guanwu/logs"/>-->
+    <property name="LOG_HOME" value="/opt/paractise/"/>
+    <property name="PROJECT_NAME" value="api"/>
+
+    <property name="FILE_PATTEN"
+              value="[%level] [%date{ISO8601}] [%logger] [%thread] [%X{clientIp}] [%X{requestId}] [%X{serverIp}] %msg%n"/>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%highlight(%-5level)] [%date{ISO8601}] [%boldGreen(%logger)]
+                [%boldYellow(%thread)] [%X{clientIp}] [%cyan(%X{requestId})] [%X{serverIp}] %msg%n
+            </pattern>
+            <charset>utf-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <!-- 出错日志 appender  -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${LOG_HOME}/${PROJECT_NAME}/logstash/ERROR-%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_PATTEN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <!-- 日志 appender  -->
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${LOG_HOME}/${PROJECT_NAME}/logstash/INFO-%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_PATTEN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="io.undertow" level="INFO"/>
+    <logger name="springfox.documentation" level="WARN"/>
+    <logger name="org.mybatis.spring" level="WARN"/>
+    <logger name="org.xnio.nio" level="WARN"/>
+
+    <root level="DEBUG"> <!-- root将级别为“INFO”及大于“INFO”的日志信息交给已经配置好的名为“Console”的appender处理，“Console”appender将信息打印到Console； -->
+        <appender-ref ref="Console"/> <!-- 标识这个appender将会添加到这个logger -->
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="DEBUG"/>
+    </root>
+</configuration>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script src="date.js"></script>--><!--引入外部js文件，与下方dispalyDate()函数功能一样-->
+</head>
+<body>
+   <h1>this is my first javaScript!</h1>
+   学习:<input type="checkbox" name="check" value="study">
+   编码:<input type="checkbox" name="check" value="code">
+   玩耍:<input type="checkbox" name="check" value="paly">
+   睡觉:<input type="checkbox" name="check" value="sleep">
+   <button type="button" onclick="check()">全选</button>
+   <button type="button" onclick="uncheck()">全不选</button>
+   <button type="button" onclick="checkT()">全选/取消</button>
+   <script>
+       //全选方法
+       function check() {
+           var elementsByName = document.getElementsByName('check');
+           if (null != elementsByName){
+               for (var x = 0; x < elementsByName.length; x++){
+                   //elementsByName[x].checked=checked;
+                   elementsByName[x].checked=true; //上下两句等价
+               }
+           }
+       }
+
+       //全不选方法
+       function uncheck() {
+            var elementsByName = document.getElementsByName('check');
+            if (null != elementsByName){
+                for (var x = 0; x < elementsByName.length; x++) {
+                    //elementsByName[x].checked="";
+                    elementsByName[x].checked=false; //上下两句等价
+                }
+            }
+       }
+
+       //全选/全部选
+       var checkAll = false; //默认全不选
+       function checkT() {
+           checkAll = !checkAll;
+           var elementsByName = document.getElementsByName("check");
+           for (var x = 0; x < elementsByName.length; x++){
+               //checkAll = !checkAll; //这一句应该拿到外边去，否则只有一半生效
+               elementsByName[x].checked=checkAll;
+           }
+       }
+   </script>
+</body>
+</html>

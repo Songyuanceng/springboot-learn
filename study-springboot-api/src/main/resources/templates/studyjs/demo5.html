@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script src="date.js"></script>--><!--引入外部js文件，与下方dispalyDate()函数功能一样-->
+</head>
+<body>
+   <h1>this is my first javaScript!</h1>
+   <button type="button" onclick="myFunction()">计数</button>
+   <p id="demo">0</p>
+   <script>
+      //闭包--就是为了保护一个公共变量，不让页面其他脚本去修改，只能调用某方法修改，
+      //由于在函数中，子函数可以去访问上一层函数(父函数)的变量(私有)，所以就可以实现。
+       /*var plus = (function () {
+           var counter = 0;
+           return function () {
+               return counter +=1;
+           }
+       })();*/
+
+      function myFunction() {
+          document.getElementById("demo").innerHTML = plus();
+      }
+
+      //
+      var counter = 0;
+      function plus() {
+          return counter +=1;
+      }
+   </script>
+</body>
+</html>

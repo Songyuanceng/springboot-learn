@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script src="date.js"></script>--><!--引入外部js文件，与下方dispalyDate()函数功能一样-->
+</head>
+<body>
+   <h1>this is my first javaScript!</h1>
+   <p id="demo">显示</p>
+   <script>
+       function show(name,job){//变量和参数必须以一致的顺序出现。第一个变量就是第一个被传递的参数的给定的值，以此类推
+            return name + " " +job;
+       }
+       //document.getElementById("demo").innerHTML=show('zhangsan','fuck you') //浏览器加载，便执行show()函数
+       window.onload = function () {
+           document.getElementById("demo").innerHTML=show('zhangsan','fuck you')
+       }
+   </script>
+</body>
+</html>
