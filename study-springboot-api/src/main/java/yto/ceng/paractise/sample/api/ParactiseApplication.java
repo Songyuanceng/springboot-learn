@@ -27,5 +27,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class ParactiseApplication {
     public static void main(String[] args) {
         SpringApplication.run(ParactiseApplication.class, args);
+
+        String str = "513000000134354311f";
     }
 }
